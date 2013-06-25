@@ -1,0 +1,143 @@
+
+<html>
+<head>
+
+    <script type="text/javascript">
+
+	var oneText = "";
+
+	var growth = 0;
+	var cookieDatte ;
+
+	function maind(){
+
+
+		time = new Date();
+   		clockStart = time.getTime();
+   		cook = readCookie("popInSync");
+
+
+		startdate = new Date()
+		now(startdate.getYear(),startdate.getMonth(),startdate.getDate(),startdate.getHours(),startdate.getMinutes(),startdate.getSeconds())
+
+		if (cook != null )
+		{
+			cookieDatte = cook;
+
+		}else{
+			createCookie("popInSync",clockStart,12);
+			cook = readCookie("popInSync");
+			cookieDatte = cook;
+		}
+	}
+
+
+	function ChangeValue(number,number2,pv){
+		numberstring ="";
+		numberstring2="";
+		var j=0;
+		var i=0;
+		while (number > 1)
+		 {
+
+			numberstring = (Math.round(number-0.5) % 10) + numberstring;
+			number= number / 10;
+			j++;
+			if (number > 1 && j==3) {
+				numberstring = "," + numberstring;
+				j=0;
+				}
+			i++;
+		 }
+
+		i=0;
+		j=0;
+		while (number2 > 1)
+		 {
+
+			numberstring2 = (Math.round(number2-0.5) % 10) + numberstring2;
+			number2= number2 / 10;
+			j++;
+			if (number2 > 1 && j==3) {
+				numberstring2 = "," + numberstring2;
+				j=0;
+				}
+			i++;
+		 }
+
+
+		if (pv==1)
+		{
+			document.getElementById("worldpop").innerHTML= numberstring;
+			document.getElementById("howmany").innerHTML = numberstring2;
+		}
+	}
+
+
+	function now(year,month,date,hours,minutes,seconds){
+
+		startdatum = new Date(year,month,date,hours,minutes,seconds)
+
+		timeNow = new Date();
+
+		var now = 5600000000.0
+		var now2 = 5685000000.0
+		var growthpercentage = (now2 - now) / now *100
+		var growthperseconde = (now * (growthpercentage/100))/365.0/24.0/60.0/60.0
+
+		nu = new Date ();
+		schuldstartdatum = new Date (96,1,1);
+		secondenoppagina = (nu.getTime() - startdatum.getTime())/1000;
+		totaleschuld= (nu.getTime() - schuldstartdatum.getTime())/1000*growthperseconde + now
+		growth=growthperseconde*(timeNow-cookieDatte)/1000;
+
+		//DISPLAY
+		ChangeValue(totaleschuld,growth,1);
+
+		timerID = setTimeout("now(startdatum.getYear(),startdatum.getMonth(),startdatum.getDate(),startdatum.getHours(),startdatum.getMinutes(),startdatum.getSeconds())",200)
+	}
+
+
+	function createCookie(name,value,hours)
+	{
+
+		if (hours)
+		{
+			var date = new Date();
+			date.setTime(date.getTime()+(hours*60*60*1000));//hours = 0 after done browsing, if -1 immediatly
+			var expires = "; expires="+date.toGMTString();
+		}
+
+		else var expires = "";
+		document.cookie = name+"="+value+expires+"; path=/";
+	}
+
+	function readCookie(name)
+	{
+		var nameEQ = name + "=";
+		var ca = document.cookie.split(';');
+
+
+
+		for(var i=0;i < ca.length;i++) {
+			var c = ca[i];
+			while (c.charAt(0)==' ') c = c.substring(1,c.length);
+			if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+		}
+		return null;
+	}
+
+	function eraseCookie(name)
+	{
+		createCookie(name,"",-1);
+	}
+
+window.onload=maind
+</script>
+</head>
+<body>
+Current world population (estimated): <span id="worldpop" style="font-weight: bold">7,068,657,543</span>.
+<br>
+Population since you have been here : <span id="howmany" style="font-weight: bold">981</span>.</div>
+</body>
+</html>
